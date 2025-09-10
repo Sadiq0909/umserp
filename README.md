@@ -1,36 +1,86 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🎓 University Management System (ERP-lite)
 
-## Getting Started
+An **ERP-based Integrated Student Management System** for colleges/universities.  
+This project provides a **low-cost, scalable solution** for managing admissions, fees, hostel allocations, and exams using **Node.js, Express, MongoDB, and Next.js**.  
 
-First, run the development server:
+---
+
+## 📌 Problem Statement
+
+Many institutions maintain admissions, fee collection, hostel, and examination records in separate ledgers. This causes:
+- Students standing in multiple queues 🏢
+- Staff re-entering identical data ✍️
+- No real-time overview for administrators 📊
+
+**Goal**: Build a unified, lightweight ERP system that:
+- Streamlines **admission intake**
+- Automates **fee receipts**
+- Tracks **hostel allocation**
+- Records **exam results**
+- Provides **real-time dashboards**
+
+---
+
+## 🏗️ Tech Stack
+
+**Backend**
+- Node.js + Express
+- MongoDB + Mongoose
+- JWT Authentication
+- bcrypt for password hashing
+
+**Frontend**
+- Next.js (React Framework)
+- Tailwind CSS (UI)
+- Axios (API Calls)
+
+---
+
+## 📂 Project Structure
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+umserp/
+│── .next/                  # Next.js build output
+│── node_modules/           # Dependencies
+│── public/                 # Static assets
+│── src/
+│   ├── app/                # App Router (frontend + API routes)
+│   │   ├── api/            # API routes
+│   │   │   └── auth/
+│   │   │       └── route.js
+│   │   ├── dashboard/
+│   │   │   └── page.jsx    # Protected page
+│   │   └── page.jsx        # Home page with Login/Register form
+│   │
+│   ├── controllers/        # API Controllers
+│   │
+│   ├── models/             # Database models
+│   │
+│   ├── database/           # Database connection
+│   │   └── connect.js
+│   │
+│   ├── utils/              # Utility functions
+│   ├── components/         # Reusable UI components
+│   └── providers/          # Context providers
+│
+│── jsconfig.json           # Path aliases
+│── tailwind.config.js      # Tailwind config
+│── postcss.config.js
+│── next.config.js          # Next.js config
+│── package.json
+│── README.md
+
+
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## ⚡ Getting Started
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+### 1️⃣ Install dependencies
+```bash
+npm install
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+## Database model
+<img src="/docs/dataModelDiagram.png" alt="Logo" height="1000"/>
