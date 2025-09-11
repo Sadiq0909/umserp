@@ -7,9 +7,9 @@ import { Button } from "./ui/button";
 
 export default function Hero() {
   return (
-    <section className="relative py-20">
+    <section className="relative pt-20 lg:pt-30 sm:pt-25">
       <div className="max-w-7xl mx-auto text-center px-6 space-y-8">
-        <SparklesText className="text-4xl sm:text-7xl font-extrabold mb-4 bg-clip-text ">
+        <SparklesText className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 bg-clip-text ">
   ERP-based Student Management System
 </SparklesText>
 
