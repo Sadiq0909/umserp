@@ -1,19 +1,25 @@
+import Link from "next/link";
+
 export default function Features() {
   const features = [
     {
       title: "🎓 Admissions",
+      link : "/admission",
       desc: "Streamline the student intake process with digital applications and records.",
     },
     {
       title: "💰 Fees",
+      link:"/fee" ,
       desc: "Automate fee collection, generate receipts, and track pending payments.",
     },
     {
       title: "🏠 Hostel",
+      link:"/hostel" ,
       desc: "Manage hostel allocations, room assignments, and availability in real-time.",
     },
     {
       title: "📊 Examinations",
+      link:"exam" , 
       desc: "Record exam results, publish reports, and analyze student performance.",
     }
   ];
@@ -33,8 +39,9 @@ export default function Features() {
         {/* Feature Cards */}
         <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-10">
           {features.map((f, i) => (
+            <Link href={f.link}       key={i}>
             <div
-      key={i}
+
       className="p-8 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg hover:shadow-2xl hover:scale-105 transition-transform"
     >
       <h3 className="text-2xl font-bold text-zinc-800 dark:text-white">
@@ -44,6 +51,7 @@ export default function Features() {
         {f.desc}
       </p>
     </div>
+            </Link>
           ))}
         </div>
       </div>

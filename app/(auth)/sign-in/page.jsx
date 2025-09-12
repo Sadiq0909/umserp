@@ -1,9 +1,65 @@
-import React from 'react'
+"use client"
 
-const page = () => {
+import { useState } from "react"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+
+export default function LoginPage() {
+  const [form, setForm] = useState({ email: "", password: "" })
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value })
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    console.log("Login Data:", form)
+  }
+
   return (
-    <div>page</div>
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-zinc-100 to-zinc-200 dark:from-zinc-900 dark:to-black px-4">
+      <Card className="w-full max-w-md shadow-md rounded-2xl border border-zinc-200 dark:border-zinc-800 ">
+        <CardHeader>
+          <CardTitle className="text-3xl font-bold text-center text-zinc-900 dark:text-zinc-100">
+            Login
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <Input
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={form.email}
+              onChange={handleChange}
+              className="py-5 text-lg"
+              required
+            />
+            <Input
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={form.password}
+              onChange={handleChange}
+              className="py-5 text-lg"
+              required
+            />
+            <Button
+              type="submit"
+              className="w-full py-5 text-lg font-semibold rounded-xl bg-zinc-900 text-white dark:bg-white dark:text-black hover:opacity-90 transition"
+            >
+              Login
+            </Button>
+          </form>
+          <p className="text-center text-zinc-600 dark:text-zinc-400 mt-6">
+            Don’t have an account?{" "}
+            <a href="/sign-up" className="font-semibold underline">
+              Sign Up
+            </a>
+          </p>
+        </CardContent>
+      </Card>
+    </div>
   )
 }
-
-export default page

@@ -17,7 +17,7 @@ export default function Header() {
 
   const navItems = [
     { href: "/dashboard", label: "Dashboard" },
-    { href: "/fees", label: "Fees" },
+    { href: "/admission", label: "Admission" },
     { href: "/hostel", label: "Hostel" },
     { href: "/exams", label: "Exams" },
   ];
@@ -66,7 +66,7 @@ export default function Header() {
                 <Menu className="w-6 h-6 text-zinc-700 dark:text-zinc-300" />
               </button>
             </SheetTrigger>
-            <SheetContent className="bg-white dark:bg-zinc-900 px-3">
+            <SheetContent className="bg-white dark:bg-zinc-900 pxnp-3">
               <SheetHeader>
                 <Link
                   href="/"

@@ -7,7 +7,6 @@ import FAQ from "@/components/FAQ";
 export default function Home() {
   return (
     <div>
-      <Header/>
       <div
               className={cn(
   "absolute inset-0 border-b",
@@ -23,9 +22,6 @@ export default function Home() {
             <About/>
             <Features/>
             <FAQ/>
-            <footer className="w-full py-6 text-center border-t border-gray-200 text-zinc-700 dark:text-zinc-300">
-      © {new Date().getFullYear()} University Management System. All rights reserved.
-    </footer>
     </div>
   );
 }

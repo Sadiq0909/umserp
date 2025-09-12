@@ -5,7 +5,7 @@ const HostelSchema = new mongoose.Schema({
   Hostel_Name: String,
   Capacity: Number,
   Warden_Name: String,
-  Contact: String
+  Contact: String,
 });
 
 export const Hostel = mongoose.model("Hostel", HostelSchema);
