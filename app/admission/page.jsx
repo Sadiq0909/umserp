@@ -1,4 +1,5 @@
-// src/components/admission/AdmissionSection.jsx
+
+// src/components/admission/page.jsx 
 "use client";
 
 import { useState } from "react";
@@ -27,49 +28,54 @@ export default function AdmissionSection() {
   const handleSelect = (field, value) =>
     setFormData((prev) => ({ ...prev, [field]: value }));
 
+const [loading, setLoading] = useState(false);
+
   const handlePayment = async () => {
-    const res = await fetch("/api/payment/order", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ amount: 50000 }), // ₹500 in paise
-    });
+    setLoading(true);
 
-    const { order } = await res.json();
+    try {
+      // Call backend to create order
+//       const res = await fetch("/api/payment", {
+//   method: "POST",
+//   headers: { "Content-Type": "application/json" },
+//   body: JSON.stringify({ amount: 500 }), // pass dynamic fee here
+// });
+      const res = await fetch("/api/payment", {
+        method: "POST",
+      });
+      const data = await res.json();
 
-    const script = document.createElement("script");
-    script.src = "https://checkout.razorpay.com/v1/checkout.js";
-    script.onload = () => {
+      if (!data?.orderId) {
+        alert("Failed to create order");
+        setLoading(false);
+        return;
+      }
+
+      // Razorpay options
       const options = {
-        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-        amount: order.amount,
-        currency: order.currency,
-        name: "University Management",
-        description: "Admission Fee",
-        order_id: order.id,
-        handler: async function (response) {
-          const verifyRes = await fetch("/api/payment/verify", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ ...response, studentData: formData }),
-          });
-
-          const data = await verifyRes.json();
-          if (data.success) {
-            alert("Admission successful! Student ID: " + data.student.Student_ID);
-          } else {
-            alert("Payment verification failed!");
-          }
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID, // keep this in .env.local
+        amount: 50000,
+        currency: "INR",
+        name: "University Management System",
+        description: "Fee Payment",
+        order_id: data.orderId,
+        handler: function (response) {
+          alert(`Payment successful! Payment ID: ${response.razorpay_payment_id}`);
         },
-        prefill: {
-          name: `${formData.First_Name} ${formData.Last_Name}`,
-          email: formData.Email,
+        theme: {
+          color: "#121212",
         },
       };
+
       const rzp = new window.Razorpay(options);
       rzp.open();
-    };
-    document.body.appendChild(script);
+    } catch (err) {
+      console.error("Payment Error:", err);
+    } finally {
+      setLoading(false);
+    }
   };
+
 
   return (
     <section className="py-30 bg-gradient-to-b from-zinc-100 to-zinc-200 dark:from-zinc-900 dark:to-black px-4">
@@ -141,8 +147,12 @@ export default function AdmissionSection() {
 
               {/* Submit & Pay */}
               <div className="pt-4">
-                <Button type="button" className="w-full text-lg py-6" onClick={handlePayment}>
-                  Submit & Pay Fees
+                <Button
+                  onClick={handlePayment}
+                  disabled={loading}
+                  className="px-6 rounded-lg w-full text-lg py-6 font-semibold disabled:opacity-50"
+                >
+                  {loading ? "Processing..." : "Submit and Pay"}
                 </Button>
               </div>
             </form>

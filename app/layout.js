@@ -2,6 +2,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider"
 import Header from "@/components/header";
+import Script from "next/script";
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,6 +34,10 @@ export default function RootLayout({ children }) {
           >
             <Header/>
             {children}
+            <Script
+          src="https://checkout.razorpay.com/v1/checkout.js"
+          strategy="afterInteractive"
+        />
             <footer className="w-full py-6 text-center border-t border-gray-200 text-zinc-700 dark:text-zinc-300">
       © {new Date().getFullYear()} University Management System. All rights reserved.
     </footer>
