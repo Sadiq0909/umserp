@@ -1,4 +1,3 @@
-// src/components/admission/page.jsx
 "use client";
 
 import { useState } from "react";
@@ -8,7 +7,6 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-
 export default function AdmissionSection() {
   const [formData, setFormData] = useState({
     First_Name: "",
@@ -71,8 +69,29 @@ export default function AdmissionSection() {
         name: "University Management System",
         description: `Fee Payment for ${formData.Department}`,
         order_id: data.orderId,
-        handler: function (response) {
-          alert(`Payment successful! Payment ID: ${response.razorpay_payment_id}`);
+        handler: async function (response) {
+          try {
+            const res = await fetch("/api/student", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                formData,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_signature: response.razorpay_signature,
+              }),
+            });
+
+            const result = await res.json();
+            if (res.ok) {
+              alert("✅ Payment successful and student added!");
+            } else {
+              alert("⚠️ Payment verified but student could not be added: " + result.message);
+            }
+          } catch (err) {
+            console.error("Error saving student:", err);
+            alert("Unexpected error while saving student.");
+          }
         },
         theme: {
           color: "#121212",

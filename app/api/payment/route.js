@@ -10,7 +10,7 @@ const razorpay = new Razorpay({
 export async function POST(request) {
   try {
     const body = await request.json();
-    const { amount } = body; // Get amount from frontend (in INR)
+    const { amount } = body; 
 
     if (!amount || isNaN(amount)) {
       return NextResponse.json(
