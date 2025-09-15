@@ -1,3 +1,4 @@
+// app/api/payment/route.js
 import { NextResponse } from "next/server";
 import Razorpay from "razorpay";
 
@@ -9,7 +10,7 @@ const razorpay = new Razorpay({
 export async function POST(request) {
   try {
     const body = await request.json();
-    const { amount } = body || 500; // Expect amount from frontend (in INR)
+    const { amount } = body; // Get amount from frontend (in INR)
 
     if (!amount || isNaN(amount)) {
       return NextResponse.json(
@@ -18,7 +19,7 @@ export async function POST(request) {
       );
     }
 
-    const order =  razorpay.orders.create({
+    const order = await razorpay.orders.create({
       amount: amount * 100, // Convert INR to paise
       currency: "INR",
       receipt: `receipt_${Date.now()}`,
@@ -27,7 +28,7 @@ export async function POST(request) {
 
     return NextResponse.json({ orderId: order.id }, { status: 200 });
   } catch (error) {
-    console.error("Error in creating order", error);
+    console.error("Error in creating order:", error);
     return NextResponse.json(
       { message: "Error in creating order" },
       { status: 500 }

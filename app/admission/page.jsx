@@ -1,5 +1,4 @@
-
-// src/components/admission/page.jsx 
+// src/components/admission/page.jsx
 "use client";
 
 import { useState } from "react";
@@ -19,8 +18,12 @@ export default function AdmissionSection() {
     Email: "",
     Phone: "",
     Address: "",
+    Department: "",
     Admission_Date: "",
   });
+
+  const [selectedFee, setSelectedFee] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) =>
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -28,20 +31,30 @@ export default function AdmissionSection() {
   const handleSelect = (field, value) =>
     setFormData((prev) => ({ ...prev, [field]: value }));
 
-const [loading, setLoading] = useState(false);
+  const departments = {
+    "Computer Science": 1000,
+    "Biotechnology": 200,
+    "Civil Engineering": 10,
+    "Chemical Engineering": 400,
+  };
+
+  const handleDepartmentSelect = (dept) => {
+    handleSelect("Department", dept);
+    setSelectedFee(departments[dept]);
+  };
 
   const handlePayment = async () => {
-    setLoading(true);
+    if (!formData.Department || !selectedFee) {
+      alert("Please select a department to proceed with payment.");
+      return;
+    }
 
+    setLoading(true);
     try {
-      // Call backend to create order
-//       const res = await fetch("/api/payment", {
-//   method: "POST",
-//   headers: { "Content-Type": "application/json" },
-//   body: JSON.stringify({ amount: 500 }), // pass dynamic fee here
-// });
       const res = await fetch("/api/payment", {
         method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amount: selectedFee }),
       });
       const data = await res.json();
 
@@ -51,13 +64,12 @@ const [loading, setLoading] = useState(false);
         return;
       }
 
-      // Razorpay options
       const options = {
-        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID, // keep this in .env.local
-        amount: 50000,
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+        amount: selectedFee * 100,
         currency: "INR",
         name: "University Management System",
-        description: "Fee Payment",
+        description: `Fee Payment for ${formData.Department}`,
         order_id: data.orderId,
         handler: function (response) {
           alert(`Payment successful! Payment ID: ${response.razorpay_payment_id}`);
@@ -75,7 +87,6 @@ const [loading, setLoading] = useState(false);
       setLoading(false);
     }
   };
-
 
   return (
     <section className="py-30 bg-gradient-to-b from-zinc-100 to-zinc-200 dark:from-zinc-900 dark:to-black px-4">
@@ -133,6 +144,28 @@ const [loading, setLoading] = useState(false);
                 </div>
               </div>
 
+              {/* Department + Fee */}
+              <div className="space-y-2">
+                <Label>Department</Label>
+                <Select onValueChange={handleDepartmentSelect}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select department" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {Object.entries(departments).map(([dept, fee]) => (
+                      <SelectItem key={dept} value={dept}>
+                        {dept}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                {selectedFee && (
+                  <p className="text-lg font-semibold mt-2 text-zinc-800 dark:text-zinc-200">
+                    Fee: ₹{selectedFee}
+                  </p>
+                )}
+              </div>
+
               {/* Address */}
               <div className="space-y-2">
                 <Label>Address</Label>
@@ -148,6 +181,7 @@ const [loading, setLoading] = useState(false);
               {/* Submit & Pay */}
               <div className="pt-4">
                 <Button
+                  type="button"
                   onClick={handlePayment}
                   disabled={loading}
                   className="px-6 rounded-lg w-full text-lg py-6 font-semibold disabled:opacity-50"
