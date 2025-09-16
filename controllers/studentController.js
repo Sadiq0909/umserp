@@ -1,5 +1,4 @@
 import crypto from "crypto";
-// import Student from "@/models/Student";
 import { Student } from "@/models/Student";
 import { connect } from "@/database/connect";
 
