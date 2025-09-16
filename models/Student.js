@@ -36,4 +36,4 @@ StudentSchema.pre("save", async function (next) {
 });
 
 
-export const Student = mongoose.model("Student", StudentSchema);
+export const Student = mongoose.models.Student || mongoose.model("Student", StudentSchema);
