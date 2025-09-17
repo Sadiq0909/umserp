@@ -8,7 +8,6 @@ import { Label } from "@/components/ui/label";
 
 export default function AddHostelForm() {
   const [formData, setFormData] = useState({
-    Hostel_ID: "",
     Hostel_Name: "",
     Capacity: "",
     Warden_Name: "",
@@ -28,7 +27,7 @@ export default function AddHostelForm() {
     setMessage("");
 
     try {
-      const res = await fetch("/api/hostels", {
+      const res = await fetch("/api/create-hostel", {
         method: "POST",
         body: JSON.stringify(formData),
       });
@@ -48,10 +47,6 @@ export default function AddHostelForm() {
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-5">
-          <div>
-            <Label className="py-2">Hostel ID</Label>
-            <Input name="Hostel_ID" value={formData.Hostel_ID} onChange={handleChange} required />
-          </div>
           <div>
             <Label className="py-2">Hostel Name</Label>
             <Input name="Hostel_Name" value={formData.Hostel_Name} onChange={handleChange} required />
