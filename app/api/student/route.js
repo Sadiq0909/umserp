@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { verifyAndAddStudent } from "@/controllers/studentController";
+import { verifyAndAddStudent , getStudents } from "@/controllers/studentController";
 import { verifyToken } from "@/lib/utils";
 import { connect } from "@/database/connect";
 import {User} from "@/models/User";
@@ -25,6 +25,17 @@ export async function POST(req) {
   }
 }
 
+export async function GET() {
+  try {
+    const result = await getStudents();
+    if (!result.success) return NextResponse.json(result, { status: 500 });
+
+    return NextResponse.json(result.students, { status: 200 });
+  } catch (err) {
+    console.error("Student GET API error:", err);
+    return NextResponse.json({ success: false, message: "Server error" }, { status: 500 });
+  }
+}
 //Get logged-in student details
 export async function GET(req) {
   await connect();

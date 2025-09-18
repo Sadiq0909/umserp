@@ -8,4 +8,4 @@ const UserSchema = new mongoose.Schema({
   Email: { type: String, required: true, unique: true }
 });
 
-export const User = mongoose.model("User", UserSchema);
+export const User = mongoose.models.User || mongoose.model("User", UserSchema);

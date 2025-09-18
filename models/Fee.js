@@ -11,4 +11,4 @@ const FeeSchema = new mongoose.Schema({
   Receipt_Link: String
 });
 
-export const Fee =  mongoose.model("Fee", FeeSchema);
+export default Fee =  mongoose.models.Fee || mongoose.model("Fee", FeeSchema);
