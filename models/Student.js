@@ -10,6 +10,7 @@ const StudentSchema = new mongoose.Schema({
   Phone: String,
   Address: String,
   Department: String,
+  Subjects: { type: Number, ref: "Subject" },
   Payment_Id: String,
   Order_Id: String,
   Hostel_ID: { type: Number, default: null },
