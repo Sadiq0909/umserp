@@ -148,6 +148,49 @@ export default function Dashboard() {
   </div>
 </div>
 
+            {/* Exams Section */}
+<div className="mt-12">
+  <h2 className="text-2xl font-semibold mb-6">Exams</h2>
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+    {/* View Exams */}
+    <Link href="/exams">
+      <Card className="cursor-pointer shadow-md border border-gray-200 dark:border-zinc-800 hover:shadow-lg transition">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-lg">
+            <CreditCard className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+            View All Exams
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-zinc-600 dark:text-zinc-400">
+            Check all exam schedules, sessions and details.
+          </p>
+        </CardContent>
+      </Card>
+    </Link>
+
+    {/* Create Exam */}
+    <Link href="/exams/create-exam">
+      <Card className="cursor-pointer shadow-md border border-gray-200 dark:border-zinc-800 hover:shadow-lg transition">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-lg">
+            <CreditCard className="w-6 h-6 text-green-600 dark:text-green-400" />
+            Create New Exam
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-zinc-600 dark:text-zinc-400">
+            Add a new exam schedule for students.
+          </p>
+        </CardContent>
+      </Card>
+    </Link>
+
+  </div>
+</div>
+
+
       </div>
     </section>
   );
