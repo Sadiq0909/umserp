@@ -16,7 +16,7 @@ export function verifyPayment(body) {
 async function generateStudentID() {
   await connect();
 
-  const lastStudent = await Student.findOne({}).sort({ Student_ID: -1 }); return lastStudent ? lastStudent.Student_ID + 1 : 1001;
+  const lastStudent = await Student.findOne({}).sort({ Student_ID: -1 }); return lastStudent ? lastStudent.Student_ID + 1 : 1001;npm
 }
 
 export async function addStudent(formData, razorpay_payment_id, razorpay_order_id) {
@@ -49,5 +49,20 @@ export async function verifyAndAddStudent(body) {
   } catch (err) {
     console.error("Error in verifyAndAddStudent:", err);
     return { success: false, message: "Server error" };
+  }
+}
+
+
+export async function getStudents() {
+  try {
+    connect();
+    const students = await Student.find().sort({ createdAt: -1 });
+    const plainStudents = students.map((s) => s.toObject());
+    console.log("Hiii");
+    
+    return { success: true, students: plainStudents };
+  } catch (err) {
+    console.error("getStudents error:", err);
+    return { success: false, message: err.message };
   }
 }

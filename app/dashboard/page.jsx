@@ -41,15 +41,17 @@ export default function Dashboard() {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-          <Card className="shadow-md border border-gray-200 dark:border-zinc-800">
-            <CardHeader className="flex flex-row items-center justify-between">
-              <CardTitle className="text-lg">Students</CardTitle>
-              <Users className="w-5 h-5 text-blue-600 dark:text-blue-400" />
-            </CardHeader>
-            <CardContent>
-              <p className="text-3xl font-bold">1,245</p>
-            </CardContent>
-          </Card>
+          <Link href="/students">
+            <Card className="shadow-md border border-gray-200 dark:border-zinc-800">
+              <CardHeader className="flex flex-row items-center justify-between">
+                <CardTitle className="text-lg">Students</CardTitle>
+                <Users className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+              </CardHeader>
+              <CardContent>
+                <p className="text-3xl font-bold">1,245</p>
+              </CardContent>
+            </Card>
+          </Link>
 
           <Card className="shadow-md border border-gray-200 dark:border-zinc-800">
             <CardHeader className="flex flex-row items-center justify-between">
@@ -107,46 +109,46 @@ export default function Dashboard() {
         </div>
 
         {/* Hostels Section */}
-<div className="mt-12">
-  <h2 className="text-2xl font-semibold mb-6">Hostels</h2>
-  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-    
-    {/* View All Hostels */}
-    <Link href="/hostels">
-      <Card className="cursor-pointer shadow-md border border-gray-200 dark:border-zinc-800 hover:shadow-lg transition">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-lg">
-            <Home className="w-6 h-6 text-purple-600 dark:text-purple-400" />
-            View All Hostels
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="text-zinc-600 dark:text-zinc-400">
-            Manage hostel details, rooms, and allocations.
-          </p>
-        </CardContent>
-      </Card>
-    </Link>
+        <div className="mt-12">
+          <h2 className="text-2xl font-semibold mb-6">Hostels</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
-    {/* Add Hostel */}
-    <Link href="/add-hostel">
-      <Card className="cursor-pointer shadow-md border border-gray-200 dark:border-zinc-800 hover:shadow-lg transition">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-lg">
-            <Home className="w-6 h-6 text-green-600 dark:text-green-400" />
-            Add New Hostel
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="text-zinc-600 dark:text-zinc-400">
-            Create a new hostel and assign rooms easily.
-          </p>
-        </CardContent>
-      </Card>
-    </Link>
+            {/* View All Hostels */}
+            <Link href="/hostels">
+              <Card className="cursor-pointer shadow-md border border-gray-200 dark:border-zinc-800 hover:shadow-lg transition">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 text-lg">
+                    <Home className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+                    View All Hostels
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-zinc-600 dark:text-zinc-400">
+                    Manage hostel details, rooms, and allocations.
+                  </p>
+                </CardContent>
+              </Card>
+            </Link>
 
-  </div>
-</div>
+            {/* Add Hostel */}
+            <Link href="/add-hostel">
+              <Card className="cursor-pointer shadow-md border border-gray-200 dark:border-zinc-800 hover:shadow-lg transition">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 text-lg">
+                    <Home className="w-6 h-6 text-green-600 dark:text-green-400" />
+                    Add New Hostel
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-zinc-600 dark:text-zinc-400">
+                    Create a new hostel and assign rooms easily.
+                  </p>
+                </CardContent>
+              </Card>
+            </Link>
+
+          </div>
+        </div>
 
       </div>
     </section>
