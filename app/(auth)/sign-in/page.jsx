@@ -5,21 +5,52 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
-export default function LoginPage() {
+export default function SignInPage() {
   const [form, setForm] = useState({ email: "", password: "" })
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState("")
+  const [success, setSuccess] = useState("")
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value })
-  }
+  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value })
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log("Login Data:", form)
+    setLoading(true)
+    setError("")
+    setSuccess("")
+
+    try {
+      const res = await fetch("/api/auth", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "login", // ✅ important
+          Email: form.email,
+          Password: form.password,
+        }),
+      })
+
+      const data = await res.json()
+
+      if (res.ok) {
+        setSuccess("Login successful! Redirecting...")
+        setTimeout(() => {
+          window.location.href = "/" // redirect to home or dashboard
+        }, 1500)
+      } else {
+        setError(data.message || "Login failed")
+      }
+    } catch (err) {
+      console.error("Login error:", err)
+      setError("Something went wrong")
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-zinc-100 to-zinc-200 dark:from-zinc-900 dark:to-black px-4">
-      <Card className="w-full max-w-md shadow-md rounded-2xl border border-zinc-200 dark:border-zinc-800 ">
+      <Card className="w-full max-w-md shadow-md rounded-2xl border border-zinc-200 dark:border-zinc-800">
         <CardHeader>
           <CardTitle className="text-3xl font-bold text-center text-zinc-900 dark:text-zinc-100">
             Login
@@ -47,13 +78,18 @@ export default function LoginPage() {
             />
             <Button
               type="submit"
+              disabled={loading}
               className="w-full py-5 text-lg font-semibold rounded-xl bg-zinc-900 text-white dark:bg-white dark:text-black hover:opacity-90 transition"
             >
-              Login
+              {loading ? "Logging In..." : "Login"}
             </Button>
           </form>
+
+          {error && <p className="text-center text-red-500 mt-4">{error}</p>}
+          {success && <p className="text-center text-green-500 mt-4">{success}</p>}
+
           <p className="text-center text-zinc-600 dark:text-zinc-400 mt-6">
-            Don’t have an account?{" "}
+            Don't have an account?{" "}
             <a href="/sign-up" className="font-semibold underline">
               Sign Up
             </a>
