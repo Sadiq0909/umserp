@@ -1,18 +1,14 @@
 import { NextResponse } from "next/server";
-<<<<<<< HEAD
 import { verifyAndAddStudent , getStudents } from "@/controllers/studentController";
-=======
-import { verifyAndAddStudent } from "@/controllers/studentController";
-import { verifyToken } from "@/utils";
+import { verifyToken } from "@/lib/utils";
 import { connect } from "@/database/connect";
-import User from "@/models/User";
-import Student from "@/models/Student";
-import Fee from "@/models/Fee";
-import Result from "@/models/Result";
-import Subject from "@/models/Subject";
-import Hostel from "@/models/Hostel";
-import Exam from "@/models/Exam";
->>>>>>> 4b6d063383add35386e232bb7cc8e56bc074c784
+import {User} from "@/models/User";
+import {Student} from "@/models/Student";
+import {Fee} from "@/models/Fee";
+import {Result} from "@/models/Result";
+import {Subject} from "@/models/Subject";
+import {Hostel} from "@/models/Hostel";
+import {Exam} from "@/models/Exam";
 
 // Add new student
 export async function POST(req) {
@@ -29,7 +25,6 @@ export async function POST(req) {
   }
 }
 
-<<<<<<< HEAD
 export async function GET() {
   try {
     const result = await getStudents();
@@ -41,7 +36,6 @@ export async function GET() {
     return NextResponse.json({ success: false, message: "Server error" }, { status: 500 });
   }
 }
-=======
 //Get logged-in student details
 export async function GET(req) {
   await connect();
@@ -114,4 +108,3 @@ export async function GET(req) {
   }
 }
 
->>>>>>> 4b6d063383add35386e232bb7cc8e56bc074c784

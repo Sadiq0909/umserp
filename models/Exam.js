@@ -10,4 +10,4 @@ const ExamSchema = new mongoose.Schema({
 });
 
 
-export const Exam = mongoose.model("Exam", ExamSchema);
+export const Exam = mongoose.models.Exam || mongoose.model("Exam", ExamSchema);
