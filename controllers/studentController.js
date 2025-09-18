@@ -51,3 +51,18 @@ export async function verifyAndAddStudent(body) {
     return { success: false, message: "Server error" };
   }
 }
+
+
+export async function getStudents() {
+  try {
+    connect();
+    const students = await Student.find().sort({ createdAt: -1 });
+    const plainStudents = students.map((s) => s.toObject());
+    console.log("Hiii");
+    
+    return { success: true, students: plainStudents };
+  } catch (err) {
+    console.error("getStudents error:", err);
+    return { success: false, message: err.message };
+  }
+}
