@@ -24,7 +24,7 @@ export default function SignInPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          action: "login", // ✅ important
+          action: "login", 
           Email: form.email,
           Password: form.password,
         }),
@@ -35,7 +35,7 @@ export default function SignInPage() {
       if (res.ok) {
         setSuccess("Login successful! Redirecting...")
         setTimeout(() => {
-          window.location.href = "/" // redirect to home or dashboard
+          window.location.href = "/" 
         }, 1500)
       } else {
         setError(data.message || "Login failed")

@@ -30,11 +30,11 @@ export default function SignUpPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          action: "register", // ✅ required by route.js
-          Username: form.username, // normalized by backend
+          action: "register", 
+          Username: form.username,
           Email: form.email,
           Password: form.password,
-          Role: "Student", // default role
+          Role: "Student", 
         }),
       })
 
@@ -42,12 +42,12 @@ export default function SignUpPage() {
 
       if (res.ok) {
         setSuccess("Account created successfully! Redirecting to login...")
-        // redirect after success
+      
         setTimeout(() => {
           window.location.href = "/sign-in"
         }, 1500)
       } else {
-        // show backend message or generic error
+    
         setError(data.message || "Signup failed")
       }
     } catch (err) {

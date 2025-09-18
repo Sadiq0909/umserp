@@ -1,4 +1,4 @@
-import { verifyToken } from "@/utils";
+import { verifyToken } from "@/lib/utils";
 import { connect } from "@/database/connect";
 import User from "@/models/User";
 import Student from "@/models/Student";
@@ -13,12 +13,10 @@ export async function GET(req) {
   try {
     const decoded = verifyToken(req);
 
-    // ✅ Only admins can fetch dashboard stats
     if (decoded.role !== "Admin") {
       return new Response(JSON.stringify({ message: "Forbidden" }), { status: 403 });
     }
 
-    // 🔹 Queries
     const totalUsers = await User.countDocuments();
     const totalStudents = await Student.countDocuments();
     const totalHostels = await Hostel.countDocuments();

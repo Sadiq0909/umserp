@@ -1,14 +1,14 @@
 import { NextResponse } from "next/server";
 import { verifyAndAddStudent } from "@/controllers/studentController";
-import { verifyToken } from "@/utils";
+import { verifyToken } from "@/lib/utils";
 import { connect } from "@/database/connect";
-import User from "@/models/User";
-import Student from "@/models/Student";
-import Fee from "@/models/Fee";
-import Result from "@/models/Result";
-import Subject from "@/models/Subject";
-import Hostel from "@/models/Hostel";
-import Exam from "@/models/Exam";
+import {User} from "@/models/User";
+import {Student} from "@/models/Student";
+import {Fee} from "@/models/Fee";
+import {Result} from "@/models/Result";
+import {Subject} from "@/models/Subject";
+import {Hostel} from "@/models/Hostel";
+import {Exam} from "@/models/Exam";
 
 // Add new student
 export async function POST(req) {

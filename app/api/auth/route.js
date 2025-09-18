@@ -7,7 +7,7 @@ function attachTokenCookie(res, token) {
     secure: process.env.NODE_ENV === "production",
     sameSite: "strict",
     path: "/",
-    maxAge: 60 * 60, // 1 hour
+    maxAge: 60 * 60, // 1 hr
   })
   return res
 }
