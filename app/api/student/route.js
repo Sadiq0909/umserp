@@ -1,15 +1,30 @@
 import { NextResponse } from "next/server";
-import { verifyAndAddStudent } from "@/controllers/studentController";
+import { verifyAndAddStudent , getStudents } from "@/controllers/studentController";
 
 export async function POST(req) {
-  const result = await verifyAndAddStudent(req);
+  try {
+    const body = await req.json();
 
-  if (!result.success) {
-    return NextResponse.json({ message: result.message }, { status: 400 });
+    const result = await verifyAndAddStudent(body);
+    if (!result.success) return NextResponse.json(result, { status: 400 });
+
+    return NextResponse.json({ success: true, student: result.student });
+  } catch (err) {
+    console.error("Student API error:", err);
+    return NextResponse.json({ success: false, message: "Server error" }, { status: 500 });
   }
+}
 
-  return NextResponse.json(
-    { message: "Student added successfully", student: result.student },
-    { status: 200 }
-  );
+
+
+export async function GET() {
+  try {
+    const result = await getStudents();
+    if (!result.success) return NextResponse.json(result, { status: 500 });
+
+    return NextResponse.json(result.students, { status: 200 });
+  } catch (err) {
+    console.error("Student GET API error:", err);
+    return NextResponse.json({ success: false, message: "Server error" }, { status: 500 });
+  }
 }

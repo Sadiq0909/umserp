@@ -41,6 +41,8 @@ export default function AdmissionSection() {
   const [showPassword, setShowPassword] = useState(false);
   const [passwordError, setPasswordError] = useState("");
 
+<<<<<<< HEAD
+=======
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     if (e.target.name === "password" || e.target.name === "confirmPassword") {
@@ -52,6 +54,7 @@ export default function AdmissionSection() {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
+>>>>>>> 9370099b9a5143d38fa1efb384675318f0cdc566
   const departments = {
     "Computer Science": 1000,
     Biotechnology: 200,
@@ -59,9 +62,92 @@ export default function AdmissionSection() {
     "Chemical Engineering": 400,
   };
 
+  // --- Handlers ---
+  const handleChange = (e) =>
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+
+  const handleSelect = (field, value) =>
+    setFormData((prev) => ({ ...prev, [field]: value }));
+
   const handleDepartmentSelect = (dept) => {
     handleSelect("Department", dept);
     setSelectedFee(departments[dept]);
+  };
+
+  const createOrder = async (amount) => {
+    try {
+      const res = await fetch("/api/payment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amount }),
+      });
+      const data = await res.json();
+      if (!data?.orderId) throw new Error("Failed to create order");
+      return data.orderId;
+    } catch (err) {
+      console.error("Order creation error:", err);
+      throw err;
+    }
+  };
+
+  const handleStudentSave = async (paymentResponse) => {
+    try {
+      const res = await fetch("/api/student", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          formData,
+          razorpay_payment_id: paymentResponse.razorpay_payment_id,
+          razorpay_order_id: paymentResponse.razorpay_order_id,
+          razorpay_signature: paymentResponse.razorpay_signature,
+        }),
+      });
+
+      if (!res.ok) {
+        const result = await res.json();
+        throw new Error(result.message || "Student save failed");
+      }
+
+      console.log("✅ Student saved successfully");
+      return true;
+    } catch (err) {
+      console.error("Student save error:", err);
+      throw err;
+    }
+  };
+
+  const downloadReceipt = async (paymentResponse) => {
+    try {
+      const receiptRes = await fetch("/api/receipt", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          student: formData,
+          payment: {
+            razorpay_payment_id: paymentResponse.razorpay_payment_id,
+            razorpay_order_id: paymentResponse.razorpay_order_id,
+            amount: selectedFee * 100,
+          },
+        }),
+      });
+
+      if (!receiptRes.ok) throw new Error("Receipt generation failed");
+
+      const blob = await receiptRes.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `Receipt_${formData.First_Name}_${Date.now()}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+
+      console.log("✅ Receipt downloaded successfully");
+    } catch (err) {
+      console.error("Receipt download error:", err);
+      alert("⚠️ Student added, but receipt could not be generated.");
+    }
   };
 
   const handlePayment = async () => {
@@ -82,6 +168,11 @@ export default function AdmissionSection() {
     }
     
     setLoading(true);
+<<<<<<< HEAD
+
+    try {
+      const orderId = await createOrder(selectedFee);
+=======
     const toastId = toast.loading("Initializing Payment...");
 
     try {
@@ -101,6 +192,7 @@ export default function AdmissionSection() {
         console.log(errorData)
         throw new Error(errorData.message || "An unexpected error occurred.");
       }
+>>>>>>> 9370099b9a5143d38fa1efb384675318f0cdc566
 
       const { orderId } = await res.json();
       if (!orderId) {
@@ -115,6 +207,28 @@ export default function AdmissionSection() {
         amount: selectedFee * 100,
         currency: "INR",
         name: "University Management System",
+<<<<<<< HEAD
+        description: `Fee Payment for ${formData.Department}`,
+        order_id: orderId,
+        handler: async (response) => {
+          // Save student
+          try {
+            await handleStudentSave(response);
+          } catch (err) {
+            console.error("Student save failed:", err);
+            // fail silently, no alert
+          }
+
+          // Download receipt
+          try {
+            await downloadReceipt(response);
+          } catch (err) {
+            console.error("Receipt download failed:", err);
+            // fail silently, no alert
+          }
+
+          console.log("✅ Payment handled (student save and/or receipt may have failed silently).");
+=======
         description: `Admission Fee for ${formData.Department}`,
         order_id: orderId,
         handler: function (response) {
@@ -132,23 +246,29 @@ export default function AdmissionSection() {
           ondismiss: function () {
             setLoading(false);
           },
+>>>>>>> 9370099b9a5143d38fa1efb384675318f0cdc566
         },
-        theme: {
-          color: "#121212",
-        },
+        theme: { color: "#121212" },
       };
       
       const rzp = new window.Razorpay(options);
       rzp.open();
 
     } catch (err) {
+<<<<<<< HEAD
+      alert("⚠️ Payment failed. Please try again.");
+=======
       toast.dismiss(toastId);
       toast.error(err.message || "An error occurred. Please try again.");
+>>>>>>> 9370099b9a5143d38fa1efb384675318f0cdc566
     } finally {
       setLoading(false);
     }
   };
 
+<<<<<<< HEAD
+  // --- JSX ---
+=======
 
   if (isRedirecting) {
   return (
@@ -171,6 +291,7 @@ export default function AdmissionSection() {
   );
 }
 
+>>>>>>> 9370099b9a5143d38fa1efb384675318f0cdc566
   return (
     <section className="py-30 bg-gradient-to-b from-zinc-100 to-zinc-200 dark:from-zinc-900 dark:to-black px-4">
       <div className="max-w-4xl mx-auto px-6">
@@ -183,7 +304,7 @@ export default function AdmissionSection() {
           <CardContent>
             {/* The entire <form> JSX remains the same as your last version. */}
             <form className="space-y-6">
-              {/* First + Last Name */}
+              {/* Grid for Name */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <Label>First Name</Label>
@@ -195,7 +316,7 @@ export default function AdmissionSection() {
                 </div>
               </div>
 
-              {/* DOB + Gender */}
+              {/* Grid for DOB and Gender */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <Label>Date of Birth</Label>
@@ -214,7 +335,7 @@ export default function AdmissionSection() {
                 </div>
               </div>
 
-              {/* Email + Phone */}
+              {/* Email & Phone */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <Label>Email</Label>
@@ -226,6 +347,9 @@ export default function AdmissionSection() {
                 </div>
               </div>
 
+<<<<<<< HEAD
+              {/* Department */}
+=======
               {/* Password Fields */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
@@ -264,13 +388,21 @@ export default function AdmissionSection() {
               </div>
 
               {/* Department + Fee */}
+>>>>>>> 9370099b9a5143d38fa1efb384675318f0cdc566
               <div className="space-y-2">
                 <Label>Department</Label>
                 <Select onValueChange={handleDepartmentSelect}>
                   <SelectTrigger> <SelectValue placeholder="Select department" /> </SelectTrigger>
                   <SelectContent>
+<<<<<<< HEAD
+                    {Object.entries(departments).map(([dept]) => (
+                      <SelectItem key={dept} value={dept}>
+                        {dept}
+                      </SelectItem>
+=======
                     {Object.entries(departments).map(([dept, fee]) => (
                       <SelectItem key={dept} value={dept}> {dept} </SelectItem>
+>>>>>>> 9370099b9a5143d38fa1efb384675318f0cdc566
                     ))}
                   </SelectContent>
                 </Select>
@@ -293,7 +425,7 @@ export default function AdmissionSection() {
                 <Input name="Admission_Date" type="date" value={formData.Admission_Date} onChange={handleChange} required />
               </div>
 
-              {/* Submit & Pay */}
+              {/* Submit */}
               <div className="pt-4">
                 <Button type="button" onClick={handlePayment} disabled={loading} className="px-6 rounded-lg w-full text-lg py-6 font-semibold disabled:opacity-50">
                   {loading ? "Processing..." : "Submit and Pay"}
