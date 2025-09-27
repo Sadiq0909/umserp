@@ -1,65 +1,69 @@
-"use client"
+"use client"; // <-- This is required for client-side hooks like useSession
 
-import { useState } from "react"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { signIn, useSession } from "next-auth/react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
-export default function LoginPage() {
-  const [form, setForm] = useState({ email: "", password: "" })
+export default function SignInPage() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const router = useRouter();
+  const { data: session, status } = useSession();
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value })
-  }
+  // Redirect if already logged in
+  useEffect(() => {
+    if (status === "authenticated") {
+      router.push("/"); // redirect logged-in users to home
+    }
+  }, [status, router]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    console.log("Login Data:", form)
-  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const res = await signIn("credentials", {
+      redirect: false,
+      email,
+      password,
+    });
+
+    if (res.ok) router.push("/dashboard");
+    else alert("Invalid credentials");
+  };
+
+  if (status === "loading") return null; // prevent flicker
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-zinc-100 to-zinc-200 dark:from-zinc-900 dark:to-black px-4">
-      <Card className="w-full max-w-md shadow-md rounded-2xl border border-zinc-200 dark:border-zinc-800 ">
+    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+      <Card className="w-[400px]">
         <CardHeader>
-          <CardTitle className="text-3xl font-bold text-center text-zinc-900 dark:text-zinc-100">
-            Login
-          </CardTitle>
+          <CardTitle>Sign In</CardTitle>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
             <Input
-              type="email"
-              name="email"
               placeholder="Email"
-              value={form.email}
-              onChange={handleChange}
-              className="py-5 text-lg"
-              required
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <Input
-              type="password"
-              name="password"
               placeholder="Password"
-              value={form.password}
-              onChange={handleChange}
-              className="py-5 text-lg"
-              required
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
-            <Button
-              type="submit"
-              className="w-full py-5 text-lg font-semibold rounded-xl bg-zinc-900 text-white dark:bg-white dark:text-black hover:opacity-90 transition"
-            >
-              Login
-            </Button>
+            <Button type="submit">Sign In</Button>
           </form>
-          <p className="text-center text-zinc-600 dark:text-zinc-400 mt-6">
-            Don’t have an account?{" "}
-            <a href="/sign-up" className="font-semibold underline">
+          <p className="mt-4 text-sm text-center">
+            Don't have an account?{" "}
+            <a className="text-blue-500" href="/sign-up">
               Sign Up
             </a>
           </p>
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

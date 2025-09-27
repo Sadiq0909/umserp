@@ -1,78 +1,61 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
-export default function SignupPage() {
-  const [form, setForm] = useState({
-    username:"" ,
-    email: "",
-    password: "",
-  })
+export default function SignUpPage() {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const router = useRouter();
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value })
-  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const res = await fetch("/api/auth/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, email, password }),
+    });
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    console.log("Signup Data:", form)
-  }
+    if (res.ok) router.push("/sign-in");
+    else alert("Error signing up");
+  };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-zinc-100 to-zinc-200 dark:from-zinc-900 dark:to-black px-4">
-      <Card className="w-full max-w-md shadow-md rounded-2xl border border-zinc-200 dark:border-zinc-800 ">
+    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+      <Card className="w-[400px]">
         <CardHeader>
-          <CardTitle className="text-3xl font-bold text-center text-zinc-900 dark:text-zinc-100">
-            Sign Up
-          </CardTitle>
+          <CardTitle>Sign Up</CardTitle>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-6">
-              <Input
-                type="text"
-                name="username"
-                placeholder="User Name"
-                value={form.username}
-                onChange={handleChange}
-                className="py-5 text-lg"
-                required
-              />
+          <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
             <Input
-              type="email"
-              name="email"
+              placeholder="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+            <Input
               placeholder="Email"
-              value={form.email}
-              onChange={handleChange}
-              className="py-5 text-lg"
-              required
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <Input
-              type="password"
-              name="password"
               placeholder="Password"
-              value={form.password}
-              onChange={handleChange}
-              className="py-5 text-lg"
-              required
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
-            <Button
-              type="submit"
-              className="w-full py-5 text-lg font-semibold rounded-xl bg-zinc-900 text-white dark:bg-white dark:text-black hover:opacity-90 transition"
-            >
-              Sign Up
-            </Button>
+            <Button type="submit">Sign Up</Button>
           </form>
-          <p className="text-center text-zinc-600 dark:text-zinc-400 mt-6">
-            Already have an account?{" "}
-            <a href="/sign-in" className="font-semibold underline">
-              Login
-            </a>
+          <p className="mt-4 text-sm text-center">
+            Already have an account? <a className="text-blue-500" href="/sign-in">Sign In</a>
           </p>
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
