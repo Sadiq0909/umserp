@@ -70,3 +70,27 @@ export async function getStudents() {
     return { success: false, message: err.message };
   }
 }
+
+export const getRecentAdmissions = async (req, res) => {
+  try {
+    await connect();
+
+    // Fetch the 3 most recent students by admission date
+    const students = await Student.find({})
+      .sort({ createdAt: -1 }) // assuming you have createdAt field
+      .limit(3)
+      .select("name email createdAt"); // select only required fields
+
+    // Map to desired format
+    const formatted = students.map((s) => ({
+      name: s.name,
+      email: s.email,
+      date: s.createdAt.toISOString().split("T")[0], // format YYYY-MM-DD
+    }));
+
+    return res.status(200).json(formatted);
+  } catch (error) {
+    console.error("Error fetching recent admissions:", error);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
