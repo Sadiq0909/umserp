@@ -1,4 +1,4 @@
-"use client"; // <-- This is required for client-side hooks like useSession
+"use client"; // 
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -35,7 +35,7 @@ export default function SignInPage() {
   if (status === "loading") return null; // prevent flicker
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+    <div className="flex justify-center items-center min-h-screen ">
       <Card className="w-[400px]">
         <CardHeader>
           <CardTitle>Sign In</CardTitle>

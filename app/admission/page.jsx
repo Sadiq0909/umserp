@@ -25,8 +25,8 @@ export default function AdmissionSection() {
     Gender: "",
     Email: "",
     Phone: "",
-    password: "",
-    confirmPassword: "",
+    // password: "",
+    // confirmPassword: "",
     Department: "",
     Address: "",
     Admission_Date: "",
@@ -36,8 +36,8 @@ export default function AdmissionSection() {
   const [selectedFee, setSelectedFee] = useState(null);
   const [loading, setLoading] = useState(false);
   const [isRedirecting, setIsRedirecting] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [passwordError, setPasswordError] = useState("");
+  // const [showPassword, setShowPassword] = useState(false);
+  // const [passwordError, setPasswordError] = useState("");
 
   const departments = {
     "Computer Science": 1000,
@@ -80,14 +80,14 @@ export default function AdmissionSection() {
   };
 
   const handlePayment = async () => {
-    if (formData.password !== formData.confirmPassword) {
-      setPasswordError("Passwords do not match!");
-      return;
-    }
-    if (formData.password.length < 6) {
-      setPasswordError("Password must be at least 6 characters long.");
-      return;
-    }
+    // if (formData.password !== formData.confirmPassword) {
+    //   setPasswordError("Passwords do not match!");
+    //   return;
+    // }
+    // if (formData.password.length < 6) {
+    //   setPasswordError("Password must be at least 6 characters long.");
+    //   return;
+    // }
     if (!formData.Department || !selectedFee) {
       toast.error("Please select a department to proceed.");
       return;
@@ -195,7 +195,7 @@ export default function AdmissionSection() {
                 </div>
               </div>
 
-              {/* Password */}
+              {/* Password
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <Label>Create Password</Label>
@@ -230,7 +230,7 @@ export default function AdmissionSection() {
                   </div>
                   {passwordError && <p className="text-sm text-red-600 mt-1">{passwordError}</p>}
                 </div>
-              </div>
+              </div> */}
 
               {/* Department */}
               <div>
