@@ -16,7 +16,11 @@ export function verifyPayment(body) {
 async function generateStudentID() {
   await connect();
 
-  const lastStudent = await Student.findOne({}).sort({ Student_ID: -1 }); return lastStudent ? lastStudent.Student_ID + 1 : 1001;
+  const lastStudent = await Student.findOne({}).sort({ Student_ID: -1 });
+
+  return lastStudent
+    ? String(Number(lastStudent.Student_ID) + 1)
+    : "1001";
 }
 
 export async function addStudent(formData, razorpay_payment_id, razorpay_order_id) {
