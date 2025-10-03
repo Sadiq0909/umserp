@@ -14,11 +14,6 @@ export default async function Dashboard() {
     redirect("/");
   }
 
-  const hostels = [
-    { Hostel_ID: 1, Hostel_Name: "Ganga Hostel", Capacity: 120, Warden_Name: "Mr. Sharma", Contact: "9876543210" },
-    { Hostel_ID: 2, Hostel_Name: "Yamuna Hostel", Capacity: 100, Warden_Name: "Mrs. Singh", Contact: "9123456780" },
-    { Hostel_ID: 3, Hostel_Name: "Kaveri Hostel", Capacity: 80, Warden_Name: "Dr. Patel", Contact: "9988776655" },
-  ];
 
   return (
     <section className="py-12 px-6 mx-auto bg-gradient-to-b from-zinc-100 to-zinc-200 dark:from-zinc-900 dark:to-black">
@@ -40,6 +35,7 @@ export default async function Dashboard() {
               <CardContent><p className="text-3xl font-bold">1,245</p></CardContent>
             </Card>
           </Link>
+          <Link href={"/hostels"}>
           <Card className="shadow-md border border-gray-200 dark:border-zinc-800">
             <CardHeader className="flex justify-between items-center">
               <CardTitle className="text-lg">Hostels</CardTitle>
@@ -47,6 +43,7 @@ export default async function Dashboard() {
             </CardHeader>
             <CardContent><p className="text-3xl font-bold">5</p></CardContent>
           </Card>
+          </Link>
           <Card className="shadow-md border border-gray-200 dark:border-zinc-800">
             <CardHeader className="flex justify-between items-center">
               <CardTitle className="text-lg">Rooms</CardTitle>
