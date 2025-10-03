@@ -1,3 +1,4 @@
+// app/api/student/[id]/route.js
 import { NextResponse } from "next/server";
 import {Student} from "@/models/Student";
 import { connect} from "@/database/connect";

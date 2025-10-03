@@ -56,7 +56,6 @@ export async function verifyAndAddStudent(body) {
   }
 }
 
-
 export async function getStudents() {
   try {
     connect();
